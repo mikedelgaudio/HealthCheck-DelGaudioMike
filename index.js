@@ -49,17 +49,14 @@ let requestSite = function requestSite() {
   // Initiate the HTTP GET request to access the site medium.com/til-js
   let request = http.request(options, function (response) {
     // Check the reponse code. If it is greater than 400, its an error
-    if (parseInt(response.statusCode, 10) <= 400) {
+    if (parseInt(response.statusCode, 10) >= 400) {
       // Mail implementation
       // Send the mail
       smtpTransport.sendMail(mail(response), function (error, response) {
         // Useful for finding the error
         if (error) {
           console.error(error);
-          let data = "Learning how to write in a file.";
-
-          // Write data in 'Output.txt' .
-          fs.writeFile("errorLogs.txt", data, (err) => {
+          fs.writeFile("errorLogs.txt", error, { flag: "wa" }, (err) => {
             // In case of a error throw err.
             if (err) throw err;
           });
@@ -67,7 +64,7 @@ let requestSite = function requestSite() {
         smtpTransport.close();
       });
     } else {
-      console.log("No we good");
+      console.log("Status Normal");
     }
   });
 
