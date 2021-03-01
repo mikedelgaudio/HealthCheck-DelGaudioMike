@@ -52,7 +52,7 @@ let requestSite = function requestSite() {
     if (parseInt(response.statusCode, 10) >= 400) {
       // Mail implementation
       // Send the mail
-      smtpTransport.sendMail(mail(response), function (error, response) {
+      smtpTransport.sendMail(mail(response), function (error) {
         // Useful for finding the error
         if (error) {
           console.error(error);
@@ -64,7 +64,11 @@ let requestSite = function requestSite() {
         smtpTransport.close();
       });
     } else {
-      console.log("Status Normal");
+      const today = new Date();
+      console.log(
+        "Status Normal at " +
+          today.toLocaleString("en-US", { timeZone: "America/New_York" })
+      );
     }
   });
 
@@ -73,7 +77,7 @@ let requestSite = function requestSite() {
     // Send the error object to mail body
     mail.html += "Error in get request. " + e;
     // Send mail.
-    smtpTransport.sendMail(mail, function (e) {
+    smtpTransport.sendMail(mail, function () {
       smtpTransport.close();
     });
   });
@@ -81,4 +85,5 @@ let requestSite = function requestSite() {
   request.end();
 };
 //requestSite();
+console.log(process.env.MAIL_PASS);
 setInterval(requestSite, 300000);
