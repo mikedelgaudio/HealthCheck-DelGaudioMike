@@ -35,3 +35,4 @@ yarn-error.log*
 .vercel
 
 errorLogs.txt
+res.json
