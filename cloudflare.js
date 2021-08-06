@@ -58,20 +58,22 @@ const getDnsHealth = async (requested_url) => {
   const response = await fetch(requested_url, {
     method: "GET",
   }).catch((err) => {
-    console.log(err);
     console.log(1);
     //handleError(err);
     return;
   });
 
-  if (response.ok) {
-    return await response.json();
+  if (response?.ok) {
+    console.log("SUCCESS");
+    return await response;
   } else {
-    return Promise.reject(
-      `Error ${response.status}, unable to resolve website.`
-    );
+    return;
   }
 };
+
+const initiateSwitch = (site) => {
+  if()
+}
 
 // const l = getDnsState("apibullishbay.delgaudiomike.com");
 // console.log(l.then((d) => console.log(d)));
@@ -130,15 +132,20 @@ const handleModifyError = (site, location) => {
 };
 
 const SUBDOMAINS = {
-  neu: process?.env?.CF_NEU_ID,
-  weatherflash: process?.env?.CF_WEATHERFLASH_ID,
-  bullishbay: process?.env?.CF_BULLISHBAY_ID,
-  apibullishbay: process?.env?.CF_APIBULLISHBAY_ID,
+  "neu.delgaudiomike.com": process?.env?.CF_NEU_ID,
+  "weatherflash.delgaudiomike.com": process?.env?.CF_WEATHERFLASH_ID,
+  "bullishbay.delgaudiomike.com": process?.env?.CF_BULLISHBAY_ID,
+  "apibullishbay.delgaudiomike.com": process?.env?.CF_APIBULLISHBAY_ID,
 };
 
 const DOMAINS = {
   "delgaudiomike.com": process?.env?.CF_DELGAUDIOMIKE_ID,
 };
+
+const list = [
+  ["neu.delgaudiomike.com", process?.env?.CF_NEU_ID],
+  ["weatherflash.delgaudiomike.com", ],
+]
 
 const healthcheck = async () => {
   for (const site in SUBDOMAINS) {
@@ -149,6 +156,6 @@ const healthcheck = async () => {
   }
 };
 
-switchToSecondary("", "test");
+getDnsHealth(SUBDOMAINS["apibullishbay.delgaudiomike.com"]);
 
 // setInterval(healthcheck, 300000);
